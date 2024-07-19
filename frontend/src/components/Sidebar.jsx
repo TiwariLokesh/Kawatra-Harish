@@ -15,6 +15,9 @@ const Sidebar = () => {
                 <li className="hover:bg-gray-700">
                     <Link to="/family" className="block p-4">Family Members</Link>
                 </li>
+                <li className="hover:bg-gray-700">
+                    <Link to="/add-family" className="block p-4">Add Family</Link>
+                </li>
             </ul>
         </div>
     );

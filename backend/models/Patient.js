@@ -21,6 +21,9 @@ const patientSchema = new Schema({
     familyDetails: [familyMemberSchema]
 });
 
+
+
+
 const Patient = mongoose.model('Patient', patientSchema);
 
 module.exports = Patient;

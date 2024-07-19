@@ -74,5 +74,81 @@ router.route('/familyDetails/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Fetch a patient by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const patient = await Patient.findById(req.params.id);
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+        res.json(patient);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Update a family member by ID
+router.put('/updateFamilyMember/:patientId/:memberId', async (req, res) => {
+    try {
+        const { patientId, memberId } = req.params;
+        const { name, relation, age } = req.body;
+
+        const patient = await Patient.findById(patientId);
+
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+
+        const familyMember = patient.familyDetails.id(memberId);
+
+        if (!familyMember) {
+            return res.status(404).json({ message: 'Family member not found' });
+        }
+
+        familyMember.name = name;
+        familyMember.relation = relation;
+        familyMember.age = age;
+
+        await patient.save();
+
+        res.json(patient);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
+
+// Delete a patient by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const patient = await Patient.findByIdAndDelete(id);
+
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+
+        res.json({ message: 'Patient deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Add a new patient
+router.post('/', async (req, res) => {
+    try {
+        const newPatient = new Patient(req.body);
+        await newPatient.save();
+        res.status(201).json(newPatient);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 module.exports = router;
