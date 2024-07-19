@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { FaEdit, FaInfoCircle, FaUser } from 'react-icons/fa';
 
 const PatientList = () => {
     const [patients, setPatients] = useState([]);
@@ -16,7 +17,7 @@ const PatientList = () => {
     }, []);
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="ml-64 p-4">
             <h3 className="text-2xl font-bold mb-4">Patient List</h3>
             <table className="min-w-full bg-white">
                 <thead className="bg-gray-800 text-white">
@@ -35,9 +36,16 @@ const PatientList = () => {
                             <td className="py-2 px-4">{patient.age}</td>
                             <td className="py-2 px-4">{patient.gender}</td>
                             <td className="py-2 px-4">{patient.medicalHistory}</td>
-                            <td className="py-2 px-4">
-                                <Link to={`/edit/${patient._id}`} className="text-blue-500 hover:text-blue-700 mr-2">Edit</Link>
-                                <Link to={`/details/${patient._id}`} className="text-blue-500 hover:text-blue-700">View</Link>
+                            <td className="py-2 px-4 flex justify-around">
+                                <Link to={`/edit/${patient._id}`} className="text-blue-500 hover:text-blue-700 mx-2">
+                                    <FaEdit />
+                                </Link>
+                                <Link to={`/details/${patient._id}`} className="text-blue-500 hover:text-blue-700 mx-2">
+                                    <FaInfoCircle />
+                                </Link>
+                                <Link to={`/profile/${patient._id}`} className="text-blue-500 hover:text-blue-700 mx-2">
+                                    <FaUser />
+                                </Link>
                             </td>
                         </tr>
                     ))}
